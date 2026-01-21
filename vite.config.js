@@ -9,8 +9,6 @@ import AutoImport from "unplugin-auto-import/vite";
 import Components from "unplugin-vue-components/vite";
 import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
 
-import ElementPlus from "unplugin-element-plus/vite";
-
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
@@ -21,10 +19,7 @@ export default defineConfig({
       resolvers: [ElementPlusResolver()],
     }),
     Components({
-      resolvers: [ElementPlusResolver()],
-    }),
-    ElementPlus({
-      useSource: true,
+      resolvers: [ElementPlusResolver({ importStyle: "sass" })],
     }),
   ],
   resolve: {

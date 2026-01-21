@@ -1,4 +1,4 @@
-<script setup></script>
+<script setup name="LayoutNav"></script>
 
 <template>
   <nav class="app-topnav">

@@ -1,4 +1,17 @@
-<script setup></script>
+<script setup>
+import { ref, onMounted } from "vue";
+import { getBannerAPI } from "@/apis/home";
+
+const categoryList = ref([]);
+const getBanner = () => {
+  const res = getBannerAPI();
+  // console.log(res);
+  categoryList.value = res.result;
+};
+onMounted(() => {
+  getBanner();
+});
+</script>
 
 <template>
   <div class="home-banner">

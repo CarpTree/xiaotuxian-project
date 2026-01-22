@@ -17,7 +17,6 @@ onMounted(() => {
   <LayoutNav />
   <LayoutHeader />
   <RouterView />
-  <div style="height: 3000px"></div>
   <LayoutFooter />
 </template>
 

@@ -1,18 +1,30 @@
-<script setup></script>
+<script setup>
+import { getNewAPI } from "@/apis/home";
+import HomePanel from "./HomePanel.vue";
+import { onMounted, ref } from "vue";
+const newList = ref([]);
+
+const getNew = async () => {
+  const res = await getNewAPI();
+  newList.value = res.result;
+};
+onMounted(() => {
+  getNew();
+});
+</script>
 
 <template>
-  <div>这是HomeNew新鲜好物组件</div>
-  <!-- 下面是插槽主体内容模版
-  <ul class="goods-list">
-    <li v-for="item in newList" :key="item.id">
-      <RouterLink to="/">
-        <img :src="item.picture" alt="" />
-        <p class="name">{{ item.name }}</p>
-        <p class="price">&yen;{{ item.price }}</p>
-      </RouterLink>
-    </li>
-  </ul>
-  -->
+  <HomePanel title="新鲜好物" desc="新鲜出炉 品质靠谱">
+    <ul class="goods-list">
+      <li v-for="item in newList" :key="item.id">
+        <RouterLink to="/">
+          <img :src="item.picture" alt="" />
+          <p class="name">{{ item.name }}</p>
+          <p class="price">&yen;{{ item.price }}</p>
+        </RouterLink>
+      </li>
+    </ul>
+  </HomePanel>
 </template>
 
 <style scoped lang="scss">

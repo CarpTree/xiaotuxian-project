@@ -1,5 +1,4 @@
 <template>
-  <div class="container">home页</div>
   <div class="container">
     <HomeCategory />
     <HomeBanner />

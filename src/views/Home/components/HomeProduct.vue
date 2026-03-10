@@ -13,7 +13,6 @@ onMounted(() => getGood());
 
 <template>
   <div class="home-product">
-    这是HomeProduct产品列表组件
     <HomePanel :title="cate.name" v-for="cate in goodsProduct" :key="cate.id">
       <div class="box">
         <RouterLink class="cover" to="/">

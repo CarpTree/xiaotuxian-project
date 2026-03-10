@@ -16,8 +16,10 @@ const { categoryList } = storeToRefs(useCategoryStore());
         <li class="home">
           <RouterLink to="/">首页</RouterLink>
         </li>
-        <li v-for="c in categoryList" :key="c.id">
-          <RouterLink to="/">{{ c.name }}</RouterLink>
+        <li v-for="item in categoryList" :key="item.id">
+          <RouterLink active-class="active" :to="`/category/${item.id}`">
+            {{ item.name }}
+          </RouterLink>
         </li>
       </ul>
 

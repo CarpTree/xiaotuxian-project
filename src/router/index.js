@@ -31,6 +31,10 @@ const router = createRouter({
       component: Login,
     },
   ],
+  // 始终滚动到顶部
+  scrollBehavior() {
+    return { top: 0 };
+  },
 });
 
 export default router;

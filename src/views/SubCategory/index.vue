@@ -5,24 +5,15 @@ import { useRoute } from "vue-router";
 import GoodsItem from "@/views/Home/components/GoodsItem.vue";
 
 const route = useRoute();
-// 获取当前二级分类信息
+// 获取当前二级分类信息并渲染面包屑导航
 const subCategoryData = ref({});
 const getCategoryFilter = async () => {
   const res = await getCategoryFilterAPI(route.params.id);
   subCategoryData.value = res.result;
 };
+onMounted(() => getCategoryFilter());
 
-// 获取当前二级分类下的商品列表
-/**
-* @description: 获取分类列表
-* @data {
-  categoryId: 1005000 ,
-  page: 1,
-  pageSize: 20,
-  sortField: 'publishTime' | 'orderNum' | 'evaluateNum'
-}
-* @return {*}
-*/
+// 获取并渲染当前二级分类下的商品列表
 const goodsList = ref([]);
 const reqData = ref({
   categoryId: route.params.id,
@@ -30,15 +21,19 @@ const reqData = ref({
   pageSize: 20,
   sortField: "publishTime",
 });
-const getSubCategoryGoods = async (data = reqData) => {
-  const res = await getSubCategoryGoodsAPI(data);
+const getSubCategoryGoods = async () => {
+  const res = await getSubCategoryGoodsAPI(reqData.value);
   goodsList.value = res.result.items;
 };
+onMounted(() => getSubCategoryGoods());
 
-onMounted(() => {
-  getCategoryFilter();
+// tab切换回调
+const tabChange = () => {
+  reqData.value.page = 1;
   getSubCategoryGoods();
-});
+};
+
+//
 </script>
 
 <template>
@@ -54,7 +49,7 @@ onMounted(() => {
       </el-breadcrumb>
     </div>
     <div class="sub-container">
-      <el-tabs>
+      <el-tabs v-model="reqData.sortField" @tab-click="tabChange">
         <el-tab-pane label="最新商品" name="publishTime"></el-tab-pane>
         <el-tab-pane label="最高人气" name="orderNum"></el-tab-pane>
         <el-tab-pane label="评论最多" name="evaluateNum"></el-tab-pane>

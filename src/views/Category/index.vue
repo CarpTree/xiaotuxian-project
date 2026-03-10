@@ -1,8 +1,10 @@
 <script setup>
 import { getTopCategoryAPI } from "@/apis/category";
-import { watch, ref } from "vue";
+import { getBannerAPI } from "@/apis/home";
+import { watch, ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 
+// 分类数据
 const categoryData = ref({});
 const route = useRoute();
 const getTopCategory = async (id) => {
@@ -16,6 +18,16 @@ watch(
   },
   { immediate: true },
 );
+
+// 轮播图数据
+const bannerData = ref([]);
+const getBanner = async () => {
+  const res = await getBannerAPI({ distributionSite: "2" });
+  bannerData.value = res.result;
+};
+onMounted(() => {
+  getBanner();
+});
 </script>
 
 <template>
@@ -27,6 +39,14 @@ watch(
           <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
           <el-breadcrumb-item>{{ categoryData.name }}</el-breadcrumb-item>
         </el-breadcrumb>
+      </div>
+
+      <div class="home-banner">
+        <el-carousel height="500px">
+          <el-carousel-item v-for="item in bannerData" :key="item.id">
+            <img :src="item.imgUrl" alt="" />
+          </el-carousel-item>
+        </el-carousel>
       </div>
     </div>
   </div>
@@ -107,6 +127,16 @@ watch(
 
   .bread-container {
     padding: 25px 0;
+  }
+
+  .home-banner {
+    width: 1240px;
+    height: 500px;
+    margin: 0 auto;
+    img {
+      width: 100%;
+      height: 500px;
+    }
   }
 }
 </style>

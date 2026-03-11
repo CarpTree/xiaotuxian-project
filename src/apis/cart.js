@@ -38,7 +38,7 @@ export const deleteCartAPI = (ids) => {
   });
 };
 
-export const checkAllCartAPI = (selected, ids) => {
+export const checkAllCartAPI = ({ selected, ids }) => {
   return http({
     url: "/member/cart/selected",
     method: "PUT",

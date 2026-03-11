@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useUserStore } from "@/stores/user";
 
 const http = axios.create({
   baseURL: "http://pcapi-xiaotuxian-front-devtest.itheima.net",
@@ -8,6 +9,11 @@ const http = axios.create({
 // 请求拦截器
 http.interceptors.request.use(
   (config) => {
+    const userStore = useUserStore();
+    const token = userStore.userInfo.token;
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
     return config;
   },
   (e) => Promise.reject(e),

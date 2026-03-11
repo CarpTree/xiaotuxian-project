@@ -1,6 +1,12 @@
 <script setup name="Login">
-//校验规则
 import { ref } from "vue";
+import { loginAPI } from "@/apis/user";
+import { ElMessage } from "element-plus";
+import "element-plus/theme-chalk/el-message.css";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+//校验规则
 const userInfo = ref({
   account: "",
   password: "",
@@ -24,13 +30,17 @@ const rules = {
     },
   ],
 };
+
 //校验
 const formRef = ref(null);
-
 const doLogin = () => {
-  formRef.value.validate((valid) => {
+  const { account, password } = userInfo.value;
+  formRef.value.validate(async (valid) => {
     if (valid) {
-      console.log("校验通过");
+      await loginAPI({ account, password });
+
+      ElMessage({ type: "success", message: "登录成功" });
+      router.replace({ path: "/" });
     }
   });
 };

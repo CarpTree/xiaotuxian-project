@@ -3,8 +3,10 @@ import { getDetailAPI } from "@/apis/detail";
 import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import DetailHot from "./components/DetailHot.vue";
-import ImagePreview from "../../components/ImagePreview.vue";
+import ImagePreview from "@/components/ImagePreview.vue";
+import XtxSku from "@/components/XtxSku/index.vue";
 
+//获取商品数据
 const route = useRoute();
 const detailData = ref({});
 const getDetail = async () => {
@@ -12,6 +14,10 @@ const getDetail = async () => {
   detailData.value = res.result;
 };
 onMounted(() => getDetail());
+//监听sku变化
+const skuChange = (sku) => {
+  console.log(sku);
+};
 </script>
 
 <template>
@@ -86,7 +92,7 @@ onMounted(() => getDetail());
                 </dl>
               </div>
               <!-- sku组件 -->
-
+              <XtxSku :goods="detailData" @change="skuChange" />
               <!-- 数据组件 -->
 
               <!-- 按钮组件 -->

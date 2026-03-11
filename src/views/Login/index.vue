@@ -1,13 +1,14 @@
 <script setup name="Login">
 import { ref } from "vue";
-import { loginAPI } from "@/apis/user";
 import { ElMessage } from "element-plus";
 import "element-plus/theme-chalk/el-message.css";
 import { useRouter } from "vue-router";
+import { useUserStore } from "@/stores/user.js";
 
+const userStore = useUserStore();
 const router = useRouter();
 //校验规则
-const userInfo = ref({
+const form = ref({
   account: "",
   password: "",
   agree: true,
@@ -16,7 +17,7 @@ const rules = {
   account: [{ required: true, message: "用户名不能为空", trigger: "blur" }],
   password: [
     { required: true, message: "密码不能为空", trigger: "blur" },
-    { min: 6, max: 24, message: "密码长度应为6~14个字符", trigger: "blur" },
+    { min: 6, max: 14, message: "密码长度应为6~14个字符", trigger: "blur" },
   ],
   agree: [
     {
@@ -34,10 +35,10 @@ const rules = {
 //校验
 const formRef = ref(null);
 const doLogin = () => {
-  const { account, password } = userInfo.value;
+  const { account, password } = form.value;
   formRef.value.validate(async (valid) => {
     if (valid) {
-      await loginAPI({ account, password });
+      await userStore.getUserInfo({ account, password });
 
       ElMessage({ type: "success", message: "登录成功" });
       router.replace({ path: "/" });
@@ -72,17 +73,17 @@ const doLogin = () => {
               label-width="60px"
               status-icon
               ref="formRef"
-              :model="userInfo"
+              :model="form"
               :rules="rules"
             >
               <el-form-item label="账户" prop="account">
-                <el-input v-model="userInfo.account" />
+                <el-input v-model="form.account" />
               </el-form-item>
               <el-form-item label="密码" prop="password">
-                <el-input v-model="userInfo.password" />
+                <el-input v-model="form.password" />
               </el-form-item>
               <el-form-item label-width="22px" prop="agree">
-                <el-checkbox size="large" v-model="userInfo.agree">
+                <el-checkbox size="large" v-model="form.agree">
                   我已同意隐私条款和服务条款
                 </el-checkbox>
               </el-form-item>

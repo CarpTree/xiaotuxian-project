@@ -4,9 +4,11 @@ import { ElMessage } from "element-plus";
 import "element-plus/theme-chalk/el-message.css";
 import { useRouter } from "vue-router";
 import { useUserStore } from "@/stores/user.js";
+import { useCartStore } from "@/stores/cart";
 
 const userStore = useUserStore();
 const router = useRouter();
+const cartStore = useCartStore();
 //校验规则
 const form = ref({
   account: "",
@@ -42,6 +44,7 @@ const doLogin = () => {
 
       ElMessage({ type: "success", message: "登录成功" });
       router.replace({ path: "/" });
+      cartStore.getCart();
     }
   });
 };

@@ -21,8 +21,12 @@ const skuChange = (sku) => {
   skuObj.value = sku;
 };
 //加入购物车
+const count = ref(0);
+const countChange = (val) => {
+  count.value = val;
+};
 const addCart = () => {
-  cartStore.addCart({ skuId: skuObj.value.skuId, count: 1 });
+  cartStore.addCart({ skuId: skuObj.value.skuId, count: count.value });
 };
 </script>
 
@@ -100,7 +104,7 @@ const addCart = () => {
               <!-- sku组件 -->
               <XtxSku :goods="detailData" @change="skuChange" />
               <!-- 数据组件 -->
-
+              <el-input-number v-model="count" @change="countChange" />
               <!-- 按钮组件 -->
               <div>
                 <el-button size="large" class="btn" @click="addCart"> 加入购物车 </el-button>

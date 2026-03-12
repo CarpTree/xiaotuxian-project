@@ -7,3 +7,13 @@ export const getCheckoutInfoAPI = () => {
     url: "/member/order/pre",
   });
 };
+/**
+ * 提交订单
+ */
+export const submitOrderAPI = (data) => {
+  return http({
+    url: "/member/order",
+    method: "POST",
+    data,
+  });
+};

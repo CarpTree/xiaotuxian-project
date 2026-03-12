@@ -3,6 +3,10 @@ import { ElMessage } from "element-plus";
 import "element-plus/theme-chalk/el-message.css";
 import { getCheckoutInfoAPI } from "@/apis/checkout";
 import { onMounted, ref } from "vue";
+import { useRouter } from "vue-router";
+import { submitOrderAPI } from "@/apis/checkout";
+const router = useRouter();
+
 const checkInfo = ref({}); // 订单对象
 const curAddress = ref({}); // 地址对象
 const getCheckoutInfo = async () => {
@@ -24,6 +28,33 @@ const confirm = () => {
 //添加地址没做
 const addAddress = () => {
   ElMessage({ type: "warning", message: "暂未制作" });
+};
+
+//提交订单
+const submitData = ref({
+  deliveryTimeType: 1,
+  payType: 1,
+  payChannel: 1,
+  buyerMessage: "",
+  goods: [],
+  addressId: "",
+});
+const submitOrder = async () => {
+  submitData.value.goods = checkInfo.value.goods.map((item) => {
+    return {
+      skuId: item.skuId,
+      count: item.count,
+    };
+  });
+  submitData.value.addressId = curAddress.value.id;
+  const res = await submitOrderAPI(submitData.value);
+  const orderId = res.result.id;
+  router.push({
+    path: "/pay",
+    query: {
+      id: orderId,
+    },
+  });
 };
 </script>
 
@@ -123,7 +154,7 @@ const addAddress = () => {
         </div>
         <!-- 提交订单 -->
         <div class="submit">
-          <el-button type="primary" size="large">提交订单</el-button>
+          <el-button type="primary" @click="submitOrder" size="large">提交订单</el-button>
         </div>
       </div>
     </div>

@@ -2,6 +2,8 @@
 import { getOrderAPI } from "@/apis/checkout";
 import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
+import { useCartStore } from "@/stores/cart";
+const cartStore = useCartStore();
 const route = useRoute();
 const orderInfo = ref({});
 const isPay = route.query.payResult;
@@ -9,6 +11,7 @@ const isPay = route.query.payResult;
 const getOrderInfo = async () => {
   const res = await getOrderAPI(route.query.orderId);
   orderInfo.value = res.result;
+  await cartStore.getCart();
 };
 
 onMounted(() => getOrderInfo());

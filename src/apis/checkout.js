@@ -17,3 +17,11 @@ export const submitOrderAPI = (data) => {
     data,
   });
 };
+/**
+ * 获取订单
+ */
+export const getOrderAPI = (id) => {
+  return http({
+    url: `/member/order/${id}`,
+  });
+};

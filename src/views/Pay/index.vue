@@ -1,16 +1,27 @@
 <script setup>
-const payInfo = {};
+import { getOrderAPI } from "@/apis/checkout";
+import { ref, onMounted } from "vue";
+import { useRoute } from "vue-router";
+const route = useRoute();
+const payInfo = ref({});
+const getOrder = async (id) => {
+  const res = await getOrderAPI(id);
+  payInfo.value = res.result;
+};
+onMounted(() => getOrder(route.query.id));
 </script>
 
 <template>
   <div class="xtx-pay-page">
-    <div class="container">
+    <div class="container" v-if="payInfo.payLatestTime">
       <!-- 付款信息 -->
       <div class="pay-info">
         <span class="icon iconfont icon-queren2"></span>
         <div class="tip">
           <p>订单提交成功！请尽快完成支付。</p>
-          <p>支付还剩 <span>24分30秒</span>, 超时后将取消订单</p>
+          <p>
+            请于 <span>{{ payInfo.payLatestTime }}</span> 前支付，超时将取消订单。
+          </p>
         </div>
         <div class="amount">
           <span>应付总额：</span>

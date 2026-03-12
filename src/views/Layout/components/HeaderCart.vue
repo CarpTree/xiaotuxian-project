@@ -30,8 +30,8 @@ const cartList = cartStore.cartList;
       </div>
       <div class="foot">
         <div class="total">
-          <p>{{ `共 ${cartList.length} 件商品` }}</p>
-          <p>&yen; {{ cartStore.sumNumber.toFixed(2) }}</p>
+          <p>{{ `共 ${cartStore.sumNumber} 件商品` }}</p>
+          <p>&yen; {{ cartStore.sumPrice.toFixed(2) }}</p>
         </div>
         <el-button size="large" type="primary">去购物车结算</el-button>
       </div>

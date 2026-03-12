@@ -30,6 +30,9 @@ export const useCartStore = defineStore(
     };
     //computed
     const sumNumber = computed(() => {
+      return cartList.value.reduce((sum, item) => sum + item.count, 0);
+    });
+    const sumPrice = computed(() => {
       return cartList.value.reduce((sum, item) => sum + item.count * item.price, 0);
     });
 
@@ -41,6 +44,7 @@ export const useCartStore = defineStore(
       deleteCart,
       checkAllCart,
       sumNumber,
+      sumPrice,
     };
   },
   {

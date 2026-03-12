@@ -1,7 +1,7 @@
 <script setup>
 import { getDetailAPI } from "@/apis/detail";
 import { onMounted, ref } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, onBeforeRouteUpdate } from "vue-router";
 import DetailHot from "./components/DetailHot.vue";
 import { useCartStore } from "@/stores/cart.js";
 
@@ -10,11 +10,14 @@ const cartStore = useCartStore();
 //获取商品数据
 const route = useRoute();
 const detailData = ref({});
-const getDetail = async () => {
-  const res = await getDetailAPI(route.params.id);
+const getDetail = async (goodsId) => {
+  const res = await getDetailAPI(goodsId);
   detailData.value = res.result;
 };
-onMounted(() => getDetail());
+onMounted(() => getDetail(route.params.id));
+onBeforeRouteUpdate((to) => {
+  getDetail(to.params.id);
+});
 //监听sku变化
 const skuObj = ref({});
 const skuChange = (sku) => {

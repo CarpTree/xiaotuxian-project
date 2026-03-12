@@ -11,7 +11,7 @@ const cartStore = useCartStore();
     <div class="layer">
       <div class="list">
         <div class="item" v-for="i in cartStore.cartList" :key="i">
-          <RouterLink to="">
+          <RouterLink :to="`/detail/${i.id}`">
             <img :src="i.picture" alt="" />
             <div class="center">
               <p class="name ellipsis-2">

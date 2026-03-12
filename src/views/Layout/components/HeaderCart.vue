@@ -1,17 +1,16 @@
 <script setup>
 import { useCartStore } from "@/stores/cart";
 const cartStore = useCartStore();
-const cartList = cartStore.cartList;
 </script>
 
 <template>
   <div class="cart">
     <a class="curr" href="javascript:;">
-      <i class="iconfont icon-cart"></i><em>{{ cartList.length }}</em>
+      <i class="iconfont icon-cart"></i><em>{{ cartStore.sumNumber }}</em>
     </a>
     <div class="layer">
       <div class="list">
-        <div class="item" v-for="i in cartList" :key="i">
+        <div class="item" v-for="i in cartStore.cartList" :key="i">
           <RouterLink to="">
             <img :src="i.picture" alt="" />
             <div class="center">

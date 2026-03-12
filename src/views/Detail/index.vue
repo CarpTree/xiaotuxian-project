@@ -3,6 +3,9 @@ import { getDetailAPI } from "@/apis/detail";
 import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import DetailHot from "./components/DetailHot.vue";
+import { useCartStore } from "@/stores/cart.js";
+
+const cartStore = useCartStore();
 
 //获取商品数据
 const route = useRoute();
@@ -13,8 +16,13 @@ const getDetail = async () => {
 };
 onMounted(() => getDetail());
 //监听sku变化
+const skuObj = ref({});
 const skuChange = (sku) => {
-  console.log(sku);
+  skuObj.value = sku;
+};
+//加入购物车
+const addCart = () => {
+  cartStore.addCart({ skuId: skuObj.value.skuId, count: 1 });
 };
 </script>
 
@@ -95,7 +103,7 @@ const skuChange = (sku) => {
 
               <!-- 按钮组件 -->
               <div>
-                <el-button size="large" class="btn"> 加入购物车 </el-button>
+                <el-button size="large" class="btn" @click="addCart"> 加入购物车 </el-button>
               </div>
             </div>
           </div>

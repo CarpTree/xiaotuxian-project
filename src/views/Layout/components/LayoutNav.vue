@@ -1,10 +1,13 @@
 <script setup name="LayoutNav">
 import { useRouter } from "vue-router";
 import { useUserStore } from "@/stores/user.js";
+import { useCartStore } from "@/stores/cart.js";
 const router = useRouter();
 const userStore = useUserStore();
+const cartStore = useCartStore();
 const logout = () => {
   userStore.clearUserInfo();
+  cartStore.clearCart();
 };
 </script>
 

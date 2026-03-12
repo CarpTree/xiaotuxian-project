@@ -28,6 +28,9 @@ export const useCartStore = defineStore(
       await checkAllCartAPI({ selected, ids });
       getCart();
     };
+    const clearCart = () => {
+      cartList.value = [];
+    };
     //computed
     const sumNumber = computed(() => {
       return cartList.value.reduce((sum, item) => sum + item.count, 0);
@@ -43,6 +46,7 @@ export const useCartStore = defineStore(
       changeCart,
       deleteCart,
       checkAllCart,
+      clearCart,
       sumNumber,
       sumPrice,
     };

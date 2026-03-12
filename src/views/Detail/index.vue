@@ -24,7 +24,7 @@ const skuChange = (sku) => {
   skuObj.value = sku;
 };
 //加入购物车
-const count = ref(0);
+const count = ref(1);
 const countChange = (val) => {
   count.value = val;
 };

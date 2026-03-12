@@ -1,6 +1,9 @@
 <script setup>
 import { useCartStore } from "@/stores/cart";
 const cartStore = useCartStore();
+const changeCart = ({ id, selected, count }) => {
+  cartStore.changeCart({ id, selected, count });
+};
 </script>
 
 <template>
@@ -11,7 +14,7 @@ const cartStore = useCartStore();
           <thead>
             <tr>
               <th width="120">
-                <el-checkbox />
+                <el-checkbox @change="cartStore.checkAllCart" v-model="cartStore.isCheckAll" />
               </th>
               <th width="400">商品信息</th>
               <th width="220">单价</th>
@@ -24,7 +27,10 @@ const cartStore = useCartStore();
           <tbody>
             <tr v-for="i in cartStore.cartList" :key="i.id">
               <td>
-                <el-checkbox />
+                <el-checkbox
+                  v-model="i.selected"
+                  @change="changeCart({ id: i.skuId, selected: i.selected, count: i.count })"
+                />
               </td>
               <td>
                 <div class="goods">
@@ -42,7 +48,10 @@ const cartStore = useCartStore();
                 <p>&yen;{{ i.price }}</p>
               </td>
               <td class="tc">
-                <el-input-number v-model="i.count" />
+                <el-input-number
+                  v-model="i.count"
+                  @change="changeCart({ id: i.skuId, selected: i.selected, count: i.count })"
+                />
               </td>
               <td class="tc">
                 <p class="f16 red">&yen;{{ (i.price * i.count).toFixed(2) }}</p>
@@ -77,8 +86,8 @@ const cartStore = useCartStore();
       <!-- 操作栏 -->
       <div class="action">
         <div class="batch">
-          共 {{ cartStore.sumNumber }} 件商品，已选择 2 件，商品合计：
-          <span class="red">¥ {{ cartStore.sumPrice.toFixed(2) }} </span>
+          共 {{ cartStore.sumNumber }} 件商品，已选择 {{ cartStore.selectedNumber }} 件，商品合计：
+          <span class="red">¥ {{ cartStore.selectedPrice.toFixed(2) }} </span>
         </div>
         <div class="total">
           <el-button size="large" type="primary">下单结算</el-button>

@@ -1,4 +1,7 @@
 <script setup>
+import { useUserStore } from "@/stores/user";
+import { storeToRefs } from "pinia";
+const userStore = useUserStore();
 // tab列表
 const tabTypes = [
   { name: "all", label: "全部订单" },
@@ -10,7 +13,7 @@ const tabTypes = [
   { name: "cancel", label: "已取消" },
 ];
 // 订单列表
-const orderList = [];
+const orderList = storeToRefs(userStore.userInfo);
 </script>
 
 <template>

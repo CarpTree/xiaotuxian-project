@@ -1,4 +1,9 @@
-<script setup></script>
+<script setup>
+import { useUserStore } from "@/stores/user";
+import { onMounted } from "vue";
+const userStore = useUserStore();
+onMounted(() => userStore.getUserInfo());
+</script>
 
 <template>
   <div class="container">
@@ -16,7 +21,7 @@
     </div>
     <div class="article">
       <!-- 三级路由的挂载点 -->
-      <!-- <RouterView /> -->
+      <RouterView />
     </div>
   </div>
 </template>

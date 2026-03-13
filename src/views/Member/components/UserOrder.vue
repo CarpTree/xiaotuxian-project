@@ -43,6 +43,11 @@ const formatState = (state) => {
   };
   return stateMap[state];
 };
+//翻页
+const pageChange = async (p) => {
+  params.value.page = p;
+  await getUserOrder();
+};
 </script>
 
 <template>
@@ -124,7 +129,13 @@ const formatState = (state) => {
           </div>
           <!-- 分页 -->
           <div class="pagination-container">
-            <el-pagination background layout="prev, pager, next" />
+            <el-pagination
+              :total="total"
+              :page-size="params.pageSize"
+              @current-change="pageChange"
+              background
+              layout="prev, pager, next"
+            />
           </div>
         </div>
       </div>

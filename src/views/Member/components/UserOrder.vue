@@ -25,11 +25,29 @@ const getUserOrder = async () => {
   total.value = res.result.counts;
 };
 onMounted(() => getUserOrder());
+
+//tab切换
+const tabChange = async (item) => {
+  params.value.orderState = item;
+  await getUserOrder();
+};
+//状态格式化
+const formatState = (state) => {
+  const stateMap = {
+    1: "待付款",
+    2: "待发货",
+    3: "待收货",
+    4: "待评价",
+    5: "已完成",
+    6: "已取消",
+  };
+  return stateMap[state];
+};
 </script>
 
 <template>
   <div class="order-container">
-    <el-tabs>
+    <el-tabs @tab-change="tabChange">
       <!-- tab切换 -->
       <el-tab-pane v-for="item in tabTypes" :key="item.name" :label="item.label" />
 
@@ -70,7 +88,7 @@ onMounted(() => getUserOrder());
                 </ul>
               </div>
               <div class="column state">
-                <p>{{ order.orderState }}</p>
+                <p>{{ formatState(order.orderState) }}</p>
                 <p v-if="order.orderState === 3">
                   <a href="javascript:;" class="green">查看物流</a>
                 </p>

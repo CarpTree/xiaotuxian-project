@@ -1,7 +1,4 @@
 import http from "@/utils/http";
-import { useUserStore } from "@/stores/user.js";
-import { ref } from "vue";
-import { ElMessage } from "element-plus";
 import "element-plus/theme-chalk/el-message.css";
 
 export const getCartAPI = () => {
@@ -11,12 +8,6 @@ export const getCartAPI = () => {
 };
 
 export const addCartAPI = ({ skuId, count }) => {
-  const userStore = useUserStore();
-  const isLogin = ref(userStore.userInfo.token);
-  if (!isLogin.value) {
-    ElMessage.error("您尚未登录，请先登录");
-    return;
-  }
   return http({
     url: "/member/cart",
     method: "post",

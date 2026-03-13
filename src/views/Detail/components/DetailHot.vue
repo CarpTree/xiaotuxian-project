@@ -63,6 +63,10 @@ const title = computed(() => TITLEMAP[props.type]);
     padding: 20px 30px;
     text-align: center;
     background: #fff;
+    transition: all 0.1s;
+    &:hover {
+      border: 3px solid rgb(0 0 0 / 20%);
+    }
 
     img {
       width: 160px;

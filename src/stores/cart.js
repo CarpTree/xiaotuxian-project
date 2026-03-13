@@ -1,6 +1,9 @@
 import { defineStore } from "pinia";
 import { ref, computed } from "vue";
 import { getCartAPI, addCartAPI, changeCartAPI, deleteCartAPI } from "@/apis/cart";
+import { ElMessage } from "element-plus";
+import "element-plus/theme-chalk/el-message.css";
+import { useUserStore } from "@/stores/user.js";
 
 export const useCartStore = defineStore(
   "cart",
@@ -13,6 +16,16 @@ export const useCartStore = defineStore(
       cartList.value = res.result;
     };
     const addCart = async ({ skuId, count }) => {
+      const userStore = useUserStore();
+      const isLogin = ref(userStore.userInfo.token);
+      if (!isLogin.value) {
+        ElMessage.error("您尚未登录，请先登录");
+        return;
+      }
+      if (count <= 0 || !skuId) {
+        ElMessage.error("请先选择商品");
+        return;
+      }
       await addCartAPI({ skuId, count });
       await getCart();
     };

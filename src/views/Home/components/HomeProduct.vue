@@ -15,7 +15,7 @@ onMounted(() => getGood());
   <div class="home-product">
     <HomePanel :title="cate.name" v-for="cate in goodsProduct" :key="cate.id">
       <div class="box">
-        <RouterLink class="cover" to="/">
+        <RouterLink class="cover">
           <img v-img-lazy="cate.picture" />
           <strong class="label">
             <span>{{ cate.name }}区</span>
@@ -65,14 +65,15 @@ onMounted(() => getGood());
       height: 610px;
       margin-right: 10px;
       position: relative;
+      overflow: hidden;
 
       img {
-        width: 100%;
         height: 100%;
+        object-fit: cover;
       }
 
       .label {
-        width: 188px;
+        width: 240px;
         height: 66px;
         display: flex;
         font-size: 18px;
@@ -127,11 +128,6 @@ onMounted(() => getGood());
       padding: 20px 30px;
       text-align: center;
       transition: all 0.5s;
-
-      &:hover {
-        transform: translate3d(0, -3px, 0);
-        box-shadow: 0 3px 8px rgb(0 0 0 / 20%);
-      }
 
       img {
         width: 160px;

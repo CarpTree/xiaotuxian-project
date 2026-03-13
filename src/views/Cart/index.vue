@@ -1,8 +1,18 @@
 <script setup>
 import { useCartStore } from "@/stores/cart";
+import { useRouter } from "vue-router";
+import { ElMessage } from "element-plus";
+import "element-plus/theme-chalk/el-message.css";
 const cartStore = useCartStore();
+const router = useRouter();
 const changeCart = ({ id, selected, count }) => {
   cartStore.changeCart({ id, selected, count });
+};
+const toCheck = () => {
+  if (cartStore.selectedNumber == 0) {
+    return ElMessage({ type: "warning", message: "当前未选中任何商品，请选择后结算" });
+  }
+  router.push("/checkout");
 };
 </script>
 
@@ -90,9 +100,7 @@ const changeCart = ({ id, selected, count }) => {
           <span class="red">¥ {{ cartStore.selectedPrice.toFixed(2) }} </span>
         </div>
         <div class="total">
-          <el-button size="large" type="primary" @click="$router.push('/checkout')"
-            >下单结算</el-button
-          >
+          <el-button size="large" type="primary" @click="toCheck">下单结算</el-button>
         </div>
       </div>
     </div>

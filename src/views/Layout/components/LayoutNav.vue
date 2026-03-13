@@ -29,7 +29,7 @@ const logout = () => {
               @confirm="logout"
             >
               <template #reference>
-                <a href="javascript:;">退出登录</a>
+                <a href="javascript:;" @click="router.push('/')">退出登录</a>
               </template>
             </el-popconfirm>
           </li>

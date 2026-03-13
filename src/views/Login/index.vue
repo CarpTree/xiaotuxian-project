@@ -40,11 +40,17 @@ const doLogin = () => {
   const { account, password } = form.value;
   formRef.value.validate(async (valid) => {
     if (valid) {
-      await userStore.getUserInfo({ account, password });
+      try {
+        await userStore.getUserInfo({ account, password });
 
-      ElMessage({ type: "success", message: "登录成功" });
-      router.replace({ path: "/" });
-      cartStore.getCart();
+        ElMessage({ type: "success", message: "登录成功" });
+        cartStore.getCart();
+        router.replace({ path: "/" });
+      } catch {
+        ElMessage({ type: "error", message: "登录失败，请重试" });
+      }
+    } else {
+      ElMessage({ type: "error", message: "校验失败" });
     }
   });
 };

@@ -69,7 +69,10 @@ const pageChange = async (p) => {
               <!-- 未付款，倒计时时间还有 -->
               <span class="down-time" v-if="order.orderState === 1">
                 <i class="iconfont icon-down-time"></i>
-                <b>付款截止: {{ order.countdown }}</b>
+                <b v-if="order.countdown !== -1">{{
+                  `订单将于${order.countdown}后取消，请及时付款`
+                }}</b>
+                <b v-else>超时未付款，订单已取消</b>
               </span>
             </div>
             <div class="body">
@@ -110,7 +113,19 @@ const pageChange = async (p) => {
                 <p>在线支付</p>
               </div>
               <div class="column action">
-                <el-button v-if="order.orderState === 1" type="primary" size="small">
+                <el-button
+                  v-if="order.orderState === 1 && order.countdown !== -1"
+                  type="primary"
+                  size="small"
+                  @click="
+                    $router.push({
+                      path: '/pay',
+                      query: {
+                        id: order.id,
+                      },
+                    })
+                  "
+                >
                   立即付款
                 </el-button>
                 <el-button v-if="order.orderState === 3" type="primary" size="small">
@@ -123,7 +138,9 @@ const pageChange = async (p) => {
                 <p v-if="[4, 5].includes(order.orderState)">
                   <a href="javascript:;">申请售后</a>
                 </p>
-                <p v-if="order.orderState === 1"><a href="javascript:;">取消订单</a></p>
+                <p v-if="order.orderState === 1 && order.countdown !== -1">
+                  <a href="javascript:;">取消订单</a>
+                </p>
               </div>
             </div>
           </div>

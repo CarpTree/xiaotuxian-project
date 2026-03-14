@@ -5,6 +5,8 @@ import { getCheckoutInfoAPI } from "@/apis/checkout";
 import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import { submitOrderAPI } from "@/apis/checkout";
+import { useCartStore } from "@/stores/cart";
+const cartStore = useCartStore();
 const router = useRouter();
 
 const checkInfo = ref({}); // 订单对象
@@ -49,7 +51,8 @@ const submitOrder = async () => {
   submitData.value.addressId = curAddress.value.id;
   const res = await submitOrderAPI(submitData.value);
   const orderId = res.result.id;
-  router.push({
+  await cartStore.getCart();
+  router.replace({
     path: "/pay",
     query: {
       id: orderId,

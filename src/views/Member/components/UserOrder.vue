@@ -69,9 +69,7 @@ const pageChange = async (p) => {
               <!-- 未付款，倒计时时间还有 -->
               <span class="down-time" v-if="order.orderState === 1">
                 <i class="iconfont icon-down-time"></i>
-                <b v-if="order.countdown !== -1">{{
-                  `订单将于${order.countdown}后取消，请及时付款`
-                }}</b>
+                <b v-if="order.countdown !== -1">下单30分钟未付款则订单自动取消，请及时付款</b>
                 <b v-else>超时未付款，订单已取消</b>
               </span>
             </div>

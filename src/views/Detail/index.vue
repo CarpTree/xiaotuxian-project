@@ -35,7 +35,7 @@ const addCart = () => {
 
 <template>
   <div class="xtx-goods-page">
-    <div class="container" v-if="detailData.categories">
+    <div class="container" v-if="detailData.id">
       <!-- 面包屑导航 -->
       <div class="bread-container">
         <el-breadcrumb separator=">">
@@ -75,7 +75,7 @@ const addCart = () => {
                 </li>
                 <li>
                   <p>品牌信息</p>
-                  <p>{{ detailData.brand.name }}</p>
+                  <p>{{ detailData.brand?.name || "无" }}</p>
                   <p><i class="iconfont icon-dynamic-filling"></i>品牌主页</p>
                 </li>
               </ul>
@@ -86,8 +86,8 @@ const addCart = () => {
               <p class="g-name">{{ detailData.name }}</p>
               <p class="g-desc">{{ detailData.desc }}</p>
               <p class="g-price">
-                <span>{{ detailData.price }}</span>
-                <span>{{ detailData.oldPrice }}</span>
+                <span>{{ skuObj?.price || detailData.price }}</span>
+                <span>{{ skuObj?.oldPrice || detailData.oldPrice }}</span>
               </p>
               <div class="g-service">
                 <dl>
@@ -124,13 +124,13 @@ const addCart = () => {
                 <div class="goods-detail">
                   <!-- 属性 -->
                   <ul class="attrs">
-                    <li v-for="item in detailData.details.properties" :key="item.value">
+                    <li v-for="item in detailData.details?.properties" :key="item.value">
                       <span class="dt">{{ item.name }}</span>
                       <span class="dd">{{ item.value }}</span>
                     </li>
                   </ul>
                   <!-- 图片 -->
-                  <img v-for="item in detailData.details.pictures" v-img-lazy="item" :key="item" />
+                  <img v-for="item in detailData.details?.pictures" v-img-lazy="item" :key="item" />
                 </div>
               </div>
             </div>
